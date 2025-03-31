@@ -1,0 +1,9 @@
+version: 1.0
+deploy:
+  runtime: python
+  build:
+    - pip install -r requirements.txt
+  start: gunicorn --bind 0.0.0.0:8080 wsgi:application
+  excludes:
+    - .git
+    - .github
