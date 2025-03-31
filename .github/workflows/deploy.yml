@@ -1,1 +1,13 @@
-
+name: Deploy to IONOS
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to IONOS
+        uses: ionos-deploy-now/deploy-action@v1
+        with:
+          api-key: ${{ secrets.IONOS_API_KEY }}
+          project: votre-projet-id
+          branch: main
