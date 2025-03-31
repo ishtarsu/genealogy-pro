@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifier {{ personne.prenom }} {{ personne.nom }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f6f5; }
+        h1 { color: #005670; }
+        .form-container { background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input, button, select { padding: 8px; margin: 5px 0; }
+        button { background-color: #005670; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #003d4f; }
+        a { color: #005670; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Modifier {{ personne.prenom }} {{ personne.nom }}</h1>
+    <div class="form-container">
+        <form action="/edit/{{ personne.id }}" method="post">
+            <label>Parent 1 :</label>
+            <select name="parent1_id">
+                <option value="">Aucun parent 1</option>
+                {% for p in personnes %}
+                    {% if p.id != personne.id %}
+                        <option value="{{ p.id }}" {% if personne.parent1_id == p.id %}selected{% endif %}>
+                            {{ p.prenom }} {{ p.nom }} ({{ p.date_naissance }})
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <br>
+            <label>Parent 2 :</label>
+            <select name="parent2_id">
+                <option value="">Aucun parent 2</option>
+                {% for p in personnes %}
+                    {% if p.id != personne.id %}
+                        <option value="{{ p.id }}" {% if personne.parent2_id == p.id %}selected{% endif %}>
+                            {{ p.prenom }} {{ p.nom }} ({{ p.date_naissance }})
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit">Mettre à jour</button>
+        </form>
+    </div>
+    <p><a href="/">Retour à la liste</a></p>
+</body>
+</html>
