@@ -1,1 +1,67 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arbre Généalogique</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f6f5; }
+        h1 { color: #005670; }
+        .node text { font-size: 14px; fill: #005670; }
+        .link { fill: none; stroke: #ccc; stroke-width: 2px; }
+        a { color: #005670; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Arbre Généalogique</h1>
+    <svg width="1200" height="800"></svg>
+    <p><a href="/">Retour à la liste</a></p>
+    <script>
+        const data = {{ arbre_data|tojson }};
+        console.log("Données reçues :", data);
+
+        const svg = d3.select("svg"),
+              width = +svg.attr("width"),
+              height = +svg.attr("height"),
+              g = svg.append("g").attr("transform", "translate(400,100)");  // Déplacé vers la gauche
+
+        const tree = d3.tree().size([600, 600]);  // Augmenté la largeur pour mieux répartir
+        const root = d3.hierarchy(data);
+        tree(root);
+
+        // Liens
+        g.selectAll(".link")
+          .data(root.links())
+          .enter()
+          .append("path")
+          .attr("class", "link")
+          .attr("d", d3.linkVertical()
+              .x(d => d.x)
+              .y(d => d.y));
+
+        // Nœuds
+        const node = g.selectAll(".node")
+          .data(root.descendants())
+          .enter()
+          .append("g")
+          .attr("class", "node")
+          .attr("transform", d => `translate(${d.x},${d.y})`);
+
+        node.append("circle")
+          .attr("r", 5)
+          .attr("fill", "#005670");
+
+        node.append("text")
+          .attr("dy", ".35em")
+          .attr("y", d => d.children ? -20 : 20)
+          .attr("text-anchor", "middle")
+          .text(d => d.data.name);
+
+        // Débogage des positions
+        node.each(function(d) {
+            console.log(`Nœud : ${d.data.name}, x: ${d.x}, y: ${d.y}`);
+        });
+    </script>
+</body>
+</html>
