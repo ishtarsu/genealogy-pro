@@ -1,1 +1,18 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Éditer</title>
+</head>
+<body>
+    <h1>Éditer {{ personne.prenom }} {{ personne.nom }}</h1>
+    <form method="POST">
+        <label>Parent 1 ID:</label>
+        <input type="number" name="parent1_id" value="{{ personne.parent1_id or '' }}" min="0">
+        <label>Parent 2 ID:</label>
+        <input type="number" name="parent2_id" value="{{ personne.parent2_id or '' }}" min="0">
+        <button type="submit">Sauvegarder</button>
+    </form>
+    <a href="{{ url_for('index') }}">Retour</a>
+</body>
+</html>
