@@ -1,1 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Généalogie</title></head>
+<body>
+    <h1>Liste des personnes</h1>
+    <form method="POST">
+        <input type="text" name="prenom" placeholder="Prénom" required>
+        <input type="text" name="nom" placeholder="Nom" required>
+        <input type="date" name="date_naissance" required>
+        <input type="number" name="parent1_id" placeholder="ID Parent 1" min="0">
+        <input type="number" name="parent2_id" placeholder="ID Parent 2" min="0">
+        <button type="submit">Ajouter</button>
+    </form>
+    <ul>
+    {% for personne in personnes %}
+        <li>
+            {{ personne.prenom }} {{ personne.nom }} ({{ personne.date_naissance }})
+            {% if personne.est_decede %} - Décédé(e) {% endif %}
+            <a href="{{ url...
 
+Un problème est survenu, veuillez réessayer.
